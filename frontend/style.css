@@ -191,7 +191,80 @@ body.has-results #atmos-bg {
   opacity: 0.2;
 }
 
-/* Utility */
+/* ---------- Hourly strip ---------- */
+.hourly-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+.hourly-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.hourly-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.hourly-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+.h-cell {
+  min-width: 88px;
+  flex-shrink: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 14px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 150ms ease;
+}
+.h-cell:first-child {
+  border-left: none;
+}
+.h-cell:hover {
+  background: #1a1a1a;
+}
+.h-cell.now {
+  background: rgba(204, 255, 0, 0.06);
+}
+.h-cell .h-time {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+.h-cell .h-icon {
+  color: #ccff00;
+}
+.h-cell .h-temp {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 15px;
+  color: #fff;
+}
+.h-cell .h-pop {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  color: rgba(102, 178, 255, 0.7);
+  letter-spacing: 0.1em;
+}
+
+/* ---------- Favorite chip variant ---------- */
+.chip.fav {
+  border-color: rgba(204, 255, 0, 0.4);
+  color: #ccff00;
+}
+.chip.fav:hover {
+  background: #ccff00;
+  color: #000;
+  border-color: #ccff00;
+}
+
+/* ---------- Unit toggle active state ---------- */
+.unit-btn.active {
+  background: #ccff00;
+  color: #000;
+}
+
+/* ---------- Utility ---------- */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }

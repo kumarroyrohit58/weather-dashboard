@@ -70,10 +70,34 @@
           </div>
         </div>
 
-        <div class="hidden md:flex flex-col items-end gap-1">
-          <div id="clock" class="font-mono text-sm text-white/70 tabular-nums">— : —</div>
-          <div id="today-date" class="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
-            ——— · ——
+        <div class="flex items-center gap-4">
+          <!-- Unit toggle -->
+          <div
+            id="unit-toggle"
+            data-testid="unit-toggle"
+            class="flex border border-white/15 font-mono text-[11px] uppercase tracking-[0.2em] select-none"
+          >
+            <button
+              data-unit="c"
+              data-testid="unit-c"
+              class="unit-btn px-3 py-1.5 bg-volt text-black transition-colors"
+            >
+              °C
+            </button>
+            <button
+              data-unit="f"
+              data-testid="unit-f"
+              class="unit-btn px-3 py-1.5 text-white/60 hover:text-white transition-colors"
+            >
+              °F
+            </button>
+          </div>
+
+          <div class="hidden md:flex flex-col items-end gap-1">
+            <div id="clock" class="font-mono text-sm text-white/70 tabular-nums">— : —</div>
+            <div id="today-date" class="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
+              ——— · ——
+            </div>
           </div>
         </div>
       </header>
@@ -128,6 +152,45 @@
             data-testid="autocomplete-dropdown"
             class="hidden absolute top-full left-0 w-full bg-[#0A0A0A] border border-white/10 mt-2 z-50 shadow-2xl max-h-[320px] overflow-y-auto"
           ></div>
+        </div>
+
+        <!-- Utility row: geolocation + share -->
+        <div class="flex flex-wrap items-center gap-3 max-w-3xl">
+          <button
+            id="geo-btn"
+            data-testid="geo-btn"
+            class="flex items-center gap-2 px-4 py-2 border border-white/20 text-white/70 hover:border-volt hover:text-volt transition-colors font-mono text-[11px] uppercase tracking-[0.2em]"
+          >
+            <i data-lucide="locate-fixed" class="w-3.5 h-3.5" stroke-width="1.5"></i>
+            <span>Use my location</span>
+          </button>
+          <button
+            id="share-btn"
+            data-testid="share-btn"
+            class="hidden flex items-center gap-2 px-4 py-2 border border-white/20 text-white/70 hover:border-volt hover:text-volt transition-colors font-mono text-[11px] uppercase tracking-[0.2em]"
+          >
+            <i data-lucide="link-2" class="w-3.5 h-3.5" stroke-width="1.5"></i>
+            <span id="share-btn-label">Copy link</span>
+          </button>
+          <button
+            id="fav-btn"
+            data-testid="fav-btn"
+            class="hidden flex items-center gap-2 px-4 py-2 border border-white/20 text-white/70 hover:border-volt hover:text-volt transition-colors font-mono text-[11px] uppercase tracking-[0.2em]"
+          >
+            <i id="fav-icon" data-lucide="star" class="w-3.5 h-3.5" stroke-width="1.5"></i>
+            <span id="fav-btn-label">Save as favorite</span>
+          </button>
+        </div>
+
+        <!-- Favorites -->
+        <div id="favorites-wrap" class="max-w-3xl hidden">
+          <div class="flex items-center gap-3 mb-3">
+            <i data-lucide="star" class="w-3.5 h-3.5 text-volt" stroke-width="1.5"></i>
+            <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-volt"
+              >Favorites</span
+            >
+          </div>
+          <div id="favorites" data-testid="favorites" class="flex flex-wrap gap-2"></div>
         </div>
 
         <!-- Recent searches -->
@@ -218,7 +281,7 @@
                   class="font-outfit font-light tracking-tighter text-white text-[90px] md:text-[140px] leading-none"
                   >—</span
                 >
-                <span class="font-mono text-lg md:text-2xl text-white/40 mt-4">°C</span>
+                <span class="font-mono text-lg md:text-2xl text-white/40 mt-4" id="temp-unit-lbl">°C</span>
               </div>
               <div
                 id="current-condition"
@@ -263,7 +326,7 @@
             </div>
             <div>
               <div id="wind" data-testid="wind" class="font-mono text-3xl text-white">—</div>
-              <div class="font-mono text-[10px] text-white/40 uppercase tracking-widest mt-1">
+              <div id="wind-unit-lbl" class="font-mono text-[10px] text-white/40 uppercase tracking-widest mt-1">
                 km/h
               </div>
             </div>
@@ -304,6 +367,28 @@
           </div>
         </div>
 
+        <!-- Hourly (next 24h) strip -->
+        <div class="col-span-1 lg:col-span-12">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="inline-block w-2 h-2 bg-volt"></span>
+              <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-white/60"
+                >Next 24 hours</span
+              >
+            </div>
+            <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-white/30 hidden md:block"
+              >Scroll →</span
+            >
+          </div>
+          <div
+            id="hourly"
+            data-testid="hourly-strip"
+            class="flex overflow-x-auto gap-3 border border-white/10 bg-surface p-4 hourly-scroll"
+          >
+            <!-- hourly cells injected here -->
+          </div>
+        </div>
+
         <!-- 5-day forecast -->
         <div class="col-span-1 lg:col-span-12">
           <div class="flex items-center justify-between mb-4">
@@ -314,7 +399,7 @@
               >
             </div>
             <span class="font-mono text-[10px] uppercase tracking-[0.3em] text-white/30 hidden md:block"
-              >High / Low · °C</span
+              >High / Low · <span id="forecast-unit-lbl">°C</span></span
             >
           </div>
           <div
