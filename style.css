@@ -17,18 +17,6 @@ section {
     border-radius: 0 !important;
 }
 
-/* Prevent Tailwind CDN reset from stealing focus ring */
-input:focus {
-    outline: none;
-}
-
-/* Hide number input arrows */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
 /* ---------- Grain overlay ---------- */
 .grain {
     background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.9'/></svg>");
